@@ -5,42 +5,84 @@ console.log("App.js is running..........");
 var app = {
   title: "Indecision App",
   subTitle: "This is some info about the app.",
-  options: ["One", "Two"]
+  options: []
 };
+var onFormSubmit = function onFormSubmit(e) {
+  e.preventDefault();
 
-var template = React.createElement(
-  "div",
-  null,
-  React.createElement(
-    "h1",
-    null,
-    app.title
-  ),
-  app.subTitle && React.createElement(
-    "p",
-    null,
-    app.subTitle
-  ),
-  React.createElement(
-    "p",
-    null,
-    app.options.length > 0 ? "Here are your options" : "No options"
-  ),
-  React.createElement(
-    "ol",
+  var option = e.target.elements.option.value;
+
+  if (option) {
+    app.options.push(option);
+    e.target.elements.option.value = "";
+  }
+  renderIndecisionApp();
+};
+var appRoot = document.getElementById("app");
+//app.options.splice(0, 1);
+
+var removeAll = function removeAll() {
+  app.options = [];
+  renderIndecisionApp();
+};
+var renderIndecisionApp = function renderIndecisionApp() {
+  var template = React.createElement(
+    "div",
     null,
     React.createElement(
-      "li",
+      "h1",
       null,
-      "Item 1"
+      app.title
+    ),
+    app.subTitle && React.createElement(
+      "p",
+      null,
+      app.subTitle
     ),
     React.createElement(
-      "li",
+      "p",
       null,
-      "Item 2"
+      app.options.length > 0 ? "Here are your options" : "No options"
+    ),
+    React.createElement(
+      "p",
+      null,
+      app.options.length
+    ),
+    React.createElement(
+      "button",
+      { onClick: removeAll },
+      "Remove All"
+    ),
+    React.createElement(
+      "ol",
+      null,
+      React.createElement(
+        "li",
+        null,
+        "Item 1"
+      ),
+      React.createElement(
+        "li",
+        null,
+        "Item 2"
+      )
+    ),
+    React.createElement(
+      "form",
+      { onSubmit: onFormSubmit },
+      React.createElement("input", { type: "text", name: "option" }),
+      React.createElement(
+        "button",
+        null,
+        "Add Option"
+      )
     )
-  )
-);
+  );
+  ReactDOM.render(template, appRoot);
+};
+
+renderIndecisionApp();
 
 var user = {
   name: "Mr Deep",
@@ -57,50 +99,3 @@ function getLocation(location) {
     );
   }
 }
-
-var appRoot = document.getElementById("app");
-
-var count = 0;
-var addOne = function addOne() {
-  count++;
-  renderCounterApp();
-};
-var minusOne = function minusOne() {
-  count--;
-  renderCounterApp();
-};
-var reset = function reset() {
-  count = 0;
-  renderCounterApp();
-};
-
-var renderCounterApp = function renderCounterApp() {
-  var templateTwo = React.createElement(
-    "div",
-    null,
-    React.createElement(
-      "h1",
-      null,
-      "Count: ",
-      count
-    ),
-    React.createElement(
-      "button",
-      { onClick: addOne },
-      "+1"
-    ),
-    React.createElement(
-      "button",
-      { onClick: minusOne },
-      "-1"
-    ),
-    React.createElement(
-      "button",
-      { onClick: reset },
-      "reset"
-    )
-  );
-
-  ReactDOM.render(templateTwo, appRoot);
-};
-renderCounterApp();
