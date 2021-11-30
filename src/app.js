@@ -1,59 +1,66 @@
-console.log("App.js is running..........");
-
-const app = {
-  title: "Indecision App",
-  subTitle: "This is some info about the app.",
-  options: [],
-};
-const onFormSubmit = (e) => {
-  e.preventDefault();
-
-  const option = e.target.elements.option.value;
-
-  if (option) {
-    app.options.push(option);
-    e.target.elements.option.value = "";
-  }
-  renderIndecisionApp();
-};
-const appRoot = document.getElementById("app");
-//app.options.splice(0, 1);
-
-const removeAll = () => {
-  app.options = [];
-  renderIndecisionApp();
-};
-const renderIndecisionApp = () => {
-  const template = (
-    <div>
-      <h1>{app.title}</h1>
-      {app.subTitle && <p>{app.subTitle}</p>}
-      <p>{app.options.length > 0 ? "Here are your options" : "No options"}</p>
-      <p>{app.options.length}</p>
-      <button onClick={removeAll}>Remove All</button>
-      <ol>
-        <li>Item 1</li>
-        <li>Item 2</li>
-      </ol>
-
-      <form onSubmit={onFormSubmit}>
-        <input type="text" name="option" />
-        <button>Add Option</button>
-      </form>
-    </div>
-  );
-  ReactDOM.render(template, appRoot);
-};
-
-renderIndecisionApp();
-
-const user = {
-  name: "Mr Deep",
-  age: 25,
-  location: "India",
-};
-function getLocation(location) {
-  if (location) {
-    return <p>Location: {location}</p>;
+class IndecisionApp extends React.Component {
+  render() {
+    return (
+      <div>
+        <Header />
+        <Action />
+        <Options />
+        <AddOption />
+      </div>
+    );
   }
 }
+
+class Header extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>Indecision</h1>
+        <h2>Put your life in the hands of a computer</h2>
+      </div>
+    );
+  }
+}
+
+class Action extends React.Component {
+  render() {
+    return (
+      <div>
+        <button>What should I do?</button>
+      </div>
+    );
+  }
+}
+
+class Options extends React.Component {
+  render() {
+    return (
+      <div>
+        <p>Options Component here</p>
+        <Option />
+      </div>
+    );
+  }
+}
+
+class Option extends React.Component {
+  render() {
+    return (
+      <div>
+        <p>Option component here</p>
+      </div>
+    );
+  }
+}
+
+class AddOption extends React.Component {
+  render() {
+    return (
+      <div>
+        <p>AddOption Component here</p>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<IndecisionApp />, document.getElementById("app"));
